@@ -7,9 +7,8 @@ on:
       - '.*/**'
 
 name: Build package from commit
-
 env:
-  MY_UNIVERSE: https://dev.ropensci.org
+  MY_UNIVERSE: https://cran.dev/${{ github.event.repository.name }}
 
 jobs:
   prepare:
@@ -117,7 +116,6 @@ jobs:
         uses: r-universe-org/build-and-check@master
         with:
           sourcepkg: ${{ needs.source.outputs.sourcepkg }}
-          cranlikerepo: 'https://dev.ropensci.org'
       - id: postcheck
         name: "Inspect check output"
         uses: r-universe-org/post-check@master
@@ -158,5 +156,5 @@ jobs:
       - name: Upload packages to server
         uses: r-universe-org/deploy-packages@master
         env:
-          CRANLIKEURL: https://dev.ropensci.org/packages
+          CRANLIKEURL: https://cran.dev/${{ github.event.repository.name }}/packages
           CRANLIKEPWD: ${{ secrets.CRANLIKEPWD }}
