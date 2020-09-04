@@ -8,10 +8,14 @@ on:
 
 name: Build package from commit
 
+env:
+  MY_UNIVERSE: https://dev.ropensci.org
+
 jobs:
   prepare:
     name: Find changed module
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'Deleting packages')"
     outputs:
       repo_url: ${{ steps.lookup.outputs.repo_url }}
       repo_name: ${{ steps.lookup.outputs.repo_name }}
