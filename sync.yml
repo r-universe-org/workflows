@@ -8,7 +8,7 @@ on:
   schedule:
     - cron:  '*/60 * * * *'
 
-name: Update submodules
+name: Sync universe registry
 
 jobs:
   update:
@@ -20,4 +20,6 @@ jobs:
         with:
           monorepo_url: https://github.com/${{ github.repository }}
         env:
+          GH_APP_ID: '87942'
+          GH_APP_KEY: ${{ secrets.GH_APP_KEY }}
           GITHUB_PAT: ${{ secrets.GHPAT }}
