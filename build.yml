@@ -138,7 +138,8 @@ jobs:
           path: |
             /opt/X11
             /usr/local/gfortran
-          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1
+          key: ${{ runner.os }}-${{ matrix.r }}-1
+          restore-keys: ${{ runner.os }}-
       - name: Install build tools
         if: runner.os == 'macos' && steps.cache-primes.outputs.cache-hit != 'true'
         uses: r-universe-org/install-tools@master
