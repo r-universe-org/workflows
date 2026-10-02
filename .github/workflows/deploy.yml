@@ -28,6 +28,7 @@ jobs:
       ref: ${{ steps.info.outputs.ref }}
       subdir: ${{ steps.info.outputs.subdir }}
       nobinaries: ${{ steps.info.outputs.nobinaries }}
+      skip: ${{ steps.info.outputs.skip }}
       organization: ${{ steps.info.outputs.organization }}
       registered: ${{ steps.info.outputs.registered }}
       hasapp: ${{ steps.info.outputs.hasapp }}
@@ -81,6 +82,7 @@ jobs:
       ref: ${{ needs.prepare.outputs.ref }}
       subdir: ${{ needs.prepare.outputs.subdir }}
       nobinaries: ${{ needs.prepare.outputs.nobinaries }}
+      skip: ${{ needs.prepare.outputs.skip }}
       organization: ${{ needs.prepare.outputs.organization }}
       variables: ${{ needs.prepare.outputs.variables }}
       timeout: ${{ needs.prepare.outputs.organization == 'bioconductor' && 90 || 60 }}

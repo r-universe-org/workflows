@@ -16,8 +16,12 @@ on:
         description: Directory to find R package
         type: string
       nobinaries:
-        description: Skip build and check on Windows and MacOS
+        description: Deprecated, use skip parameter
         type: string
+      skip:
+        description: String with jobs or platforms to skip
+        type: string
+        default: ''
       organization:
         description: Run extra organization specific checks
         type: string
@@ -122,7 +126,7 @@ jobs:
 
   linux:
     needs: [source]
-    if: ${{ !cancelled() && needs.source.outputs.sourcepkg }}
+    if: ${{ !cancelled() && !contains(inputs.skip, 'linux') && needs.source.outputs.sourcepkg }}
     runs-on: ubuntu-24.04${{matrix.arch=='arm64' && '-arm' || ''}}
     timeout-minutes: 150
     name: R-${{ matrix.r }} for Linux ${{ needs.source.outputs.compiled && matrix.arch || '' }}
@@ -178,7 +182,7 @@ jobs:
 
   windows:
     needs: [source]
-    if: ${{ !cancelled() && needs.source.outputs.sourcepkg }}
+    if: ${{ !cancelled() && !contains(inputs.skip, 'windows') && needs.source.outputs.sourcepkg }}
     runs-on: ${{matrix.arch=='arm64' && 'windows-11-arm' || 'windows-2025'}}
     timeout-minutes: 150
     name: R-${{ matrix.r }} for Windows ${{ needs.source.outputs.compiled && matrix.arch || '' }}
@@ -241,7 +245,7 @@ jobs:
 
   macos:
     needs: [source]
-    if: ${{ !cancelled() && !inputs.nobinaries && needs.source.outputs.sourcepkg }}
+    if: ${{ !cancelled() && !contains(inputs.skip, 'macos') && inputs.organization != 'cran' && needs.source.outputs.sourcepkg }}
     runs-on: macos-${{ matrix.arch == 'x86_64' && '15-intel' || '15' }}
     timeout-minutes: 150
     name: R-${{ matrix.r }} for MacOS ${{ needs.source.outputs.compiled && matrix.arch || '' }}
@@ -304,7 +308,7 @@ jobs:
 
   wasm:
     needs: [source]
-    if: ${{ !cancelled() && needs.source.outputs.sourcepkg }}
+    if: ${{ !cancelled() && !contains(inputs.skip, 'wasm') && needs.source.outputs.sourcepkg }}
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     name: R-${{ matrix.r }} for Wasm
