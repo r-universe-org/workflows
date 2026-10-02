@@ -60,7 +60,7 @@ env:
 jobs:
   source:
     name: Source pkg and vignettes
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 90
     env: ${{fromJSON(inputs.variables)}}
     outputs:
@@ -127,7 +127,7 @@ jobs:
   linux:
     needs: [source]
     if: ${{ !cancelled() && !contains(inputs.skip, 'linux') && needs.source.outputs.sourcepkg }}
-    runs-on: ubuntu-24.04${{matrix.arch=='arm64' && '-arm' || ''}}
+    runs-on: ubuntu-26.04${{matrix.arch=='arm64' && '-arm' || ''}}
     timeout-minutes: 150
     name: R-${{ matrix.r }} for Linux ${{ needs.source.outputs.compiled && matrix.arch || '' }}
     strategy:
@@ -309,7 +309,7 @@ jobs:
   wasm:
     needs: [source]
     if: ${{ !cancelled() && !contains(inputs.skip, 'wasm') && needs.source.outputs.sourcepkg }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     name: R-${{ matrix.r }} for Wasm
     strategy:
@@ -354,7 +354,7 @@ jobs:
   bioconductor:
     needs: [source]
     if: ${{ !cancelled() && needs.source.outputs.sourcepkg && inputs.organization == 'bioconductor' }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 100
     name: Bioconductor Checks
     container:
@@ -394,7 +394,7 @@ jobs:
 
   ropensci:
     name: Build rOpenSci docs
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     if: ${{ inputs.organization == 'ropensci' }}
     timeout-minutes: 90
     container:

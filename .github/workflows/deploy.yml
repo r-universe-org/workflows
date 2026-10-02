@@ -20,7 +20,7 @@ run-name: ${{ github.event.head_commit.message || format('{0} (rebuild)', inputs
 jobs:
   prepare:
     name: Prepare build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     outputs:
       package: ${{ steps.info.outputs.package }}
       universe: ${{ steps.info.outputs.universe }}
@@ -89,7 +89,7 @@ jobs:
 
   deploy:
     name: Deploy and report
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: [prepare, build]
     if: always() && needs.prepare.result == 'success'
     outputs:
@@ -144,7 +144,7 @@ jobs:
 
   rechecks:
     name: Trigger rebuilds for dependents
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: [prepare, deploy]
     if: ${{ !cancelled() && needs.deploy.outputs.version_change }}
     steps:
