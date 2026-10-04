@@ -15,9 +15,6 @@ on:
       subdir:
         description: Directory to find R package
         type: string
-      nobinaries:
-        description: Deprecated, use skip parameter
-        type: string
       skip:
         description: String with jobs or platforms to skip
         type: string
