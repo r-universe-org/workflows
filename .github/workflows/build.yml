@@ -53,6 +53,7 @@ env:
   MY_UNIVERSE: ${{ inputs.universe && format('https://{0}.r-universe.dev', inputs.universe) || '' }}
   CRAN_VERSION: ${{ fromJSON(inputs.variables).CRAN_VERSION }}
   NO_ADDITIONAL_REPOSITORIES: ${{ inputs.organization == 'cran' || inputs.organization == 'bioconductor' || '' }}
+# BIOC_MIRROR: https://bioconductor.posit.co
 
 jobs:
   source:
